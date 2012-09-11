@@ -8,8 +8,8 @@ class Animal {
 	}
 	public function getSpecies() { return $this->species; }
 	public function getAttributes() { return $this->attributes; }
-	public function jump() { return 'jumps'; }
-	public function hop() { return 'hops'; }
+	public static function jump() { return 'jumps'; }
+	public static function hop() { return 'hops'; }
 };
 
 class Fox extends Animal {

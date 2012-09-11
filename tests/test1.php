@@ -4,15 +4,14 @@
 # The aim is to simply produce a sentence by using
 # all features JuggleCode provides...
 
+error_reporting(E_STRICT);
 
 # Include some classes:
 require('test2.php');
 $fox = new Fox;
 $dog = new Dog;
 
-
 function end_sentence($end_character) { return $end_character; }
-
 
 # Collect words:
 $words = array();
@@ -28,7 +27,6 @@ if ($dog->getAttributes()) {
 	$words[] = $dog->getAttributes();
 }
 $words[] = $dog->getSpecies();
-
 
 # Concatenate words and output sentence:
 $sentence = implode(' ', $words);
