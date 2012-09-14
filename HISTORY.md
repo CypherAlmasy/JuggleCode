@@ -1,3 +1,5 @@
 # History
 
-No history so far...
+- Version 0.0.1, released on 2012-09-14
+	- Bugfixed oppressFunctionCall
+- Version 0.0.0 released on 2012-09-12

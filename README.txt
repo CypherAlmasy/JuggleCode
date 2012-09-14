@@ -79,16 +79,22 @@ Title: Running JuggleCode directly from the commandline
 Note the "1>", which redirects only the stdout to the outfile; JuggleCode will use the stderr-channel for logging.
 
 
+Title: Installation
+
+JuggleCode is easily installed using Packagist/Composer.
+
+
 Title: Ideas for using JuggleCode
 
-- Deploying PHP applications in a single file and in different versions: one version with included debugging features, the other version with excluded debugging features
+- Deploying PHP applications in a single file and in different versions: one version with included debugging features, the other version without
 
 
-Title: Ideas for improvement of JuggleCode
+Title: Ideas for improving JuggleCode
 
 - Allow the creation of single-file PHP patch-scripts that can overwrite PHP statements in one or multiple other PHP files
 - Oppressing or replacing the body of function or method definitions (replaceMethodBody, replaceFunctionBody)
-- Improve the code by seperating the class into multiple classes, e.g one for methods, one for functions, asf.
+- Improve the code by seperating the JuggleCode class into multiple classes, e.g one for methods, one for functions, asf.
+- Convert JuggleCode to a PHP extension (see PHP Preprocessors like <http://www.ohloh.net/p/pihipi> and <http://code.metala.org/p/ccpp>)
 
 
 Title: Credits and Bugreports

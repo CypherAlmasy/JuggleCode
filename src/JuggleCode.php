@@ -8,7 +8,7 @@ chdir($wd);
 
 # Start logging:
 LogMore::open('jugglecode');
-LogMore::debug('Including JuggleCode');
+LogMore::debug('Including JuggleCode PHP Manipulation Tool');
 
 /**
  * Class: JuggleCode
@@ -195,7 +195,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 * Function: oppressFunctionCall
 	 */
 	public function oppressFunctionCall($function) {
-		$this->oppressedFunctionCall[] = $function;
+		$this->oppressedFunctionCalls[] = $function;
 	}
 
 	
@@ -374,8 +374,10 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 		# If function should get oppressed
 		if (in_array($function_name, $this->oppressedFunctionCalls)) {
+			LogMore::debug('Function call will get oppressed');
 			$code = 'null';
 		} elseif (isset($this->replacedFunctionCalls[$function_name])) {
+			LogMore::debug('Function call will get replaced');
 			$code = $this->formatExpression(
 				$this->replacedFunctionCalls[$function_name],
 				$node);
