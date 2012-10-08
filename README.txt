@@ -101,3 +101,9 @@ Title: Credits and Bugreports
 
 JuggleCode was written by Codeless (<http://www.codeless.at/>). All bugreports can be directed to more@codeless.at. Even better, bugreports are posted on the github-repository of this package: <https://www.github.com/codeless/jugglecode>.
 JuggleCode would not have been possible if there isn't nikic's PHP-Parser package: <https://www.github.com/nikic/php-parser>.
+
+
+Title: License
+
+This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License:
+<http://creativecommons.org/licenses/by-sa/3.0/deed.en_US>

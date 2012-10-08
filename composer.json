@@ -1,6 +1,7 @@
 {
 	"name" : "codeless/jugglecode",
 	"description" : "A tool to manipulate PHP statements in scriptfiles",
+	"license" : "CC-BY-SA-3.0",
 	"keywords" : ["deploy","join","one-file","prettyprint","manipulate"],
 	"homepage" : "https://www.github.com/codeless/jugglecode",
 	"require" : {
