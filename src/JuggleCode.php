@@ -52,6 +52,24 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 
 	/**
+	 * Variable: $filesToMerge
+	 *
+	 * Array containing a list of files that should get merged.
+	 * With this member it's possible to only merge specific files
+	 * into the outfile.
+	 * There are three possibilities running JuggleCode:
+	 * - Do not merge files at all
+	 * 	In this case, both $mergeScripts and $filesToMerge 
+	 * 	is set to false
+	 * - Do merge all files
+	 * 	$mergeScripts = true, $filesToMerge = false
+	 * - Do only merge given files
+	 * 	$mergeScripts = false, $filesToMerge = array('file1', 'file2')
+	 */
+	private $filesToMerge;
+
+
+	/**
 	 * Variable: $comments
 	 *
 	 * Flag to enable or disable comments in the output. Per default,
@@ -142,8 +160,15 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 		$this->outfile = $outfile;
 		$this->comments = true;
 		$this->mergeScripts = false;
+		$this->filesToMerge = false;
 		$this->includedFiles = array();
 	}
+
+
+	/**
+	 * Just for the statistics in the testmode yet...
+	 */
+	public function getIncludedFiles() { return $this->includedFiles; }
 
 
 	/**
@@ -302,6 +327,18 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 
 	/**
+	 * Function: mergeFile 
+	 */
+	public function mergeFile($file) {
+		if (!is_array($this->filesToMerge)) {
+			$this->filesToMerge = array();
+		}
+
+		$this->filesToMerge[] = $file;
+	}
+
+
+	/**
 	 * Function: pComments
 	 *
 	 * Handles comments
@@ -330,7 +367,9 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	public function pExpr_Include(PHPParser_Node_Expr_Include $node) {
 		$file_to_include = $node->expr->value;
 
-		if ($file_to_include && $this->mergeScripts) {
+		if ($file_to_include && $this->mergeScripts ||
+			$file_to_include && in_array($file_to_include, $this->filesToMerge))
+		{
 			LogMore::debug('File to include: %s', $file_to_include);
 
 			# If the file should be only included/required once

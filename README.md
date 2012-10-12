@@ -53,6 +53,30 @@ The result of the merging-process will look like this:
  	# file2.php:
  	echo 'File 2',PHP_EOL;
 
+It is also possible to merge only specific files. Imagine the following script.php:
+
+ 	<?php
+ 	require('lib.php');
+ 	require('debug.php');
+ 	# ...
+
+To only join script.php with lib.php, run:
+
+ 	<?php
+ 	$j = new JuggleCode();
+ 	$j->masterfile = 'script.php';
+ 	$j->outfile = 'app.php';
+ 	$j->mergeFile('lib.php');
+ 	$j->run();
+
+The output would be:
+
+ 	<?php
+ 	# Contents of lib.php
+ 	# ...
+ 	require('debug.php');
+ 	# ...
+
 To disable comments in the output, use:
 
  	$j->comments = false;

@@ -122,4 +122,21 @@ class JuggleCodeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected_result . PHP_EOL, $actual_result);
 	}
 
+
+	public function testFileMerging() {
+		# Create new object
+		$j = new JuggleCode('tests/test1.php', 'tests/outfile.php');
+
+		# Tell JuggleCode to only merge test2.php:
+		$j->mergeFile('test2.php');
+
+		# Run:
+		$j->run();
+
+		# Check the include-table for correctness:
+		$this->assertEquals(
+			$j->getIncludedFiles(),
+			array('test2.php' => 1));
+	}
+
 };

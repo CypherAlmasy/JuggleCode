@@ -29,5 +29,6 @@ if ($dog->getAttributes()) {
 $words[] = $dog->getSpecies();
 
 # Concatenate words and output sentence:
-$sentence = implode(' ', $words);
-echo $sentence,end_sentence('.'),PHP_EOL;
+$sentence = false;
+include('build_sentence.php');
+echo $sentence,PHP_EOL;
