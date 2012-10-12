@@ -1,6 +1,6 @@
 <?php
 
-define('CODELESS_JUGGLECODE_TEST', 1);
+require('vendor/autoload.php');
 require('src/JuggleCode.php');
 
 class JuggleCodeTest extends PHPUnit_Framework_TestCase {

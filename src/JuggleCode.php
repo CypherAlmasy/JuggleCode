@@ -1,11 +1,5 @@
 <?php
 
-# Include requirements if not testing:
-$wd = getcwd();
-chdir(dirname(__FILE__));
-require('../vendor/autoload.php');
-chdir($wd);
-
 # Start logging:
 LogMore::open('jugglecode');
 LogMore::debug('Including JuggleCode PHP Manipulation Tool');
@@ -606,18 +600,3 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	}
 
 };
-
-
-# To be able to use JuggleCode directly from the commandline, the
-# first argument must be set to the current filename:
-if (isset($argv) && isset($argv[0]) && basename($argv[0]) == 'JuggleCode.php') {
-	# If a mainfile has been passed:
-	if (isset($argv[1])) {
-		LogMore::debug('Running JuggleCode from the commandline');
-		$mainfile = $argv[1];
-
-		# Run ScripJoiner:
-		$s = new JuggleCode($mainfile);
-		$s->run();
-	}
-}
