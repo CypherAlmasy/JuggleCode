@@ -139,11 +139,40 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 	
 	/**
-	 * Variable: $includedFiles
+	 * Variable: $inlineHTMLBlocksCount
 	 *
 	 * Variable for counting the number of inline HTML blocks.
 	 */
 	private $inlineHTMLBlocksCount;
+
+
+	/**
+	 * Variable: $definedFunctions
+	 *
+	 * Array containing the names of all defined functions.
+	 */
+	private $definedFunctions;
+
+
+	/**
+	 * Variable: $undefineFunctions
+	 *
+	 * Array containing the names of all functions
+	 * which should not get defined in the outfile.
+	 * Probable reason for not defining a function
+	 * in the outfile is because it's a ghost function
+	 * and will never be called.
+	 */
+	private $undefineFunctions;
+
+
+	/**
+	 * Variable: $calledFunctions
+	 *
+	 * Table containing the names of all called functions as
+	 * key, and the number of calls as value.
+	 */
+	private $calledFunctions;
 
 
 	/**
@@ -163,7 +192,12 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 		$this->comments = true;
 		$this->mergeScripts = false;
 		$this->filesToMerge = false;
-		$this->includedFiles = array();
+
+		$this->includedFiles =
+		$this->definedFunctions =
+		$this->calledFunctions =
+		$this->undefineFunctions = array();
+
 		$this->inlineHTMLBlocksCount = 0;
 	}
 
@@ -411,20 +445,46 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 */
 	public function pExpr_FuncCall(PHPParser_Node_Expr_FuncCall $node) {
 		$code = null;
-		$function_name = $this->p($node->name);
-		LogMore::debug('Name of function to call: %s', $function_name);
+		$functionName = $this->p($node->name);
+		LogMore::debug('Name of function to call: %s', $functionName);
 
 		# If function should get oppressed
-		if (in_array($function_name, $this->oppressedFunctionCalls)) {
+		if (in_array($functionName, $this->oppressedFunctionCalls)) {
 			LogMore::debug('Function call will get oppressed');
 			$code = 'null';
-		} elseif (isset($this->replacedFunctionCalls[$function_name])) {
+		} elseif (isset($this->replacedFunctionCalls[$functionName])) {
 			LogMore::debug('Function call will get replaced');
 			$code = $this->formatExpression(
-				$this->replacedFunctionCalls[$function_name],
+				$this->replacedFunctionCalls[$functionName],
 				$node);
+			$this->raiseCalledFunctionsCounter(
+				$this->replacedFunctionCalls[$functionName]);
 		} else {
 			$code = parent::pExpr_FuncCall($node);
+			$this->raiseCalledFunctionsCounter($functionName);
+		}
+
+		return $code;
+	}
+
+
+	private function raiseCalledFunctionsCounter($function) {
+		if (!isset($this->calledFunctions[$function])) {
+			$this->calledFunctions[$function] = 0;
+		}
+		++$this->calledFunctions[$function];
+	}
+
+
+	public function pStmt_Function(PHPParser_Node_Stmt_Function $node) {
+		$code = null;
+		$functionName = $node->name;
+
+		# Check if function should get defined:
+		if (!in_array($functionName, $this->undefineFunctions)) {
+			# Define function
+			$this->definedFunctions[] = $functionName;
+			$code = parent::pStmt_Function($node);
 		}
 
 		return $code;
@@ -664,6 +724,27 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 	public function __get($name) {
 		return $this->$name;
+	}
+
+
+	/**
+	 * Function: getGhostFunctions
+	 *
+	 * Returns an array of functions which got defined in the
+	 * masterfile, but weren't called inside the processed scripts.
+	 * It is not always safe to remove the definitions of these
+	 * ghost functions from the masterscript; it is possible
+	 * that those functions are used inside a dynamically included
+	 * script file.
+	 * When stripping out all ghost functions, this has to be done
+	 * recursively, because once the first bunch of ghost functions
+	 * gets undefined, probably others -- only used within those
+	 * ghost functions -- will follow.
+	 */
+	public function getGhostFunctions() {
+		return array_diff(
+			$this->definedFunctions,
+			array_keys($this->calledFunctions));
 	}
 
 };

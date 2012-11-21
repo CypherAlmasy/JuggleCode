@@ -1,5 +1,7 @@
 Title: History
 
+- Version 1.0.0, released on 2012-11-21
+	- Added the method getGhostFunctions, which will return all unused -- but defined -- functions in a script
 - Version 0.0.4, released on 2102-11-21
 	- Bugfixed the inclusion of subscripts within subscripts (path problem)
 	- Added a testcase for dynamic file inclusion
