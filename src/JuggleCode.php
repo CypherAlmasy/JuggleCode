@@ -403,6 +403,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 */
 	public function pExpr_Include(PHPParser_Node_Expr_Include $node) {
 		$file = $node->expr->value;
+		$path = realpath($file);
 		$info = pathinfo($file);
 		$extension = (isset($info['extension']))
 			? $extension = $info['extension']
@@ -418,7 +419,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 				$node->type == PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE)
 			{
 				# If the file has already been included
-				if (isset($this->includedFiles[$file])) {
+				if (isset($this->includedFiles[$path])) {
 					LogMore::debug('File has already been included once');
 
 					# Leave function
@@ -429,10 +430,10 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 			$code = $this->parseFile($file);
 
 			# Add file to array of included files and raise counter:
-			if (isset($this->includedFiles[$file])) {
-				$this->includedFiles[$file] += 1;
+			if (isset($this->includedFiles[$path])) {
+				$this->includedFiles[$path] += 1;
 			} else {
-				$this->includedFiles[$file] = 1;
+				$this->includedFiles[$path] = 1;
 			}
 
 			return $code;

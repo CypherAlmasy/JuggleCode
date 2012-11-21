@@ -3,6 +3,8 @@
 require('vendor/autoload.php');
 require('src/JuggleCode.php');
 
+LogMore::disable();
+
 class JuggleCodeTest extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -136,7 +138,7 @@ class JuggleCodeTest extends PHPUnit_Framework_TestCase {
 		# Check the include-table for correctness:
 		$this->assertEquals(
 			$j->getIncludedFiles(),
-			array('test2.php' => 1));
+			array(realpath('tests/test2.php') => 1));
 	}
 
 
@@ -155,10 +157,10 @@ class JuggleCodeTest extends PHPUnit_Framework_TestCase {
 		# Check the include-table for correctness:
 		$this->assertEquals(
 			$j->getIncludedFiles(),
-			array( 	'test2.php' => 1,
-				'ueberdog.php' => 1,
-				'animals/dog.php' => 1,
-				'build_sentence.php' => 1));
+			array( 	realpath('tests/test2.php') => 1,
+				realpath('tests/animals/ueberdog.php') => 1,
+				realpath('tests/animals/dog.php') => 1,
+				realpath('tests/build_sentence.php') => 1));
 	}
 
 };

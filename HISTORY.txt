@@ -1,5 +1,7 @@
 Title: History
 
+- Version 1.0.2, unreleased*
+	- Bugfixed the inclusion of files; at a point, some files were included multiple times, even if the masterscript said include_once. This bug was fixed by storing the realpath of all included files
 - Version 1.0.1, unreleased*
 	- Bugfixed the usage of $mergeScripts: by now, only scripts identified as PHP scripts get included (extension must be .php)
 - Version 1.0.0, released on 2012-11-21

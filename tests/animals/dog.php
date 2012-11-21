@@ -6,4 +6,4 @@ class Dog extends Animal {
 	}
 };
 
-require('ueberdog.php');
+require_once('ueberdog.php');

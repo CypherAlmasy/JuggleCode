@@ -9,6 +9,7 @@ error_reporting(E_STRICT);
 # Include some classes:
 require('test2.php');
 require('animals/dog.php');
+require_once('animals/ueberdog.php');
 require('animals/cat.inc');
 
 # Dynamic include/require statements like the
