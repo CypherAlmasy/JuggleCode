@@ -1,5 +1,8 @@
 # History
 
+- Version 0.0.4, released on 2102-11-21
+	- Bugfixed the inclusion of subscripts within subscripts (path problem)
+	- Added a testcase for dynamic file inclusion
 - Version 0.0.3, released on 2012-11-21
 	- Removed cli support (yet untested)
 	- Removed inclusion of composer autoloader from src/JuggleCode.php

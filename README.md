@@ -77,6 +77,12 @@ The output would be:
  	require('debug.php');
  	# ...
 
+Dynamic inclusion of files is left intact, even if mergeScripts is enabled:
+
+ 	# This will not change:
+ 	$file = 'somedata';
+ 	require($file . '.txt');
+
 To disable comments in the output, use:
 
  	$j->comments = false;
@@ -96,13 +102,6 @@ Replace function- and method-calls:
  	$j->replaceMethodCall('$foo', 'foo', 'foo(%args%)');
 
 
-# Running JuggleCode directly from the commandline
-
- 	php -f /path/to/JuggleCode.php /path/to/project/mainfile.php 1> /path/to/outfile.php
-
-Note the "1>", which redirects only the stdout to the outfile; JuggleCode will use the stderr-channel for logging.
-
-
 # Installation
 
 JuggleCode is easily installed using Packagist/Composer.
@@ -120,6 +119,7 @@ JuggleCode is easily installed using Packagist/Composer.
 - Improve the code by seperating the JuggleCode class into multiple classes, e.g one for methods, one for functions, asf.
 - Convert JuggleCode to a PHP extension (see PHP Preprocessors like http://www.ohloh.net/p/pihipi and http://code.metala.org/p/ccpp)
 - Find empty functions and methods; automatically oppress definitions of those and also the calls
+- Generate templateable scripts from a non-templateable PHP scriptfile
 
 
 # Credits and Bugreports

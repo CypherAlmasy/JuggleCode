@@ -102,13 +102,6 @@ Replace function- and method-calls:
 : 	$j->replaceMethodCall('$foo', 'foo', 'foo(%args%)');
 
 
-Title: Running JuggleCode directly from the commandline
-
-: 	php -f /path/to/JuggleCode.php /path/to/project/mainfile.php 1> /path/to/outfile.php
-
-Note the "1>", which redirects only the stdout to the outfile; JuggleCode will use the stderr-channel for logging.
-
-
 Title: Installation
 
 JuggleCode is easily installed using Packagist/Composer.
