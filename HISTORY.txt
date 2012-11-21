@@ -1,5 +1,7 @@
 Title: History
 
+- Version 1.0.1, unreleased*
+	- Bugfixed the usage of $mergeScripts: by now, only scripts identified as PHP scripts get included (extension must be .php)
 - Version 1.0.0, released on 2012-11-21
 	- Added the method getGhostFunctions, which will return all unused -- but defined -- functions in a script
 - Version 0.0.4, released on 2102-11-21
@@ -13,3 +15,5 @@ Title: History
 - Version 0.0.1, released on 2012-09-14
 	- Bugfixed oppressFunctionCall
 - Version 0.0.0 released on 2012-09-12
+
+*unreleased versions are not provided as packagist/github tags, therefore need to be included via "dev-master"
