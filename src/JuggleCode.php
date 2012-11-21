@@ -513,7 +513,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 
 	public function pStmt_InlineHTML(PHPParser_Node_Stmt_InlineHTML $node) {
 		++$this->inlineHTMLBlocksCount;
-		parent::pStmt_InlineHTML($node);
+		return parent::pStmt_InlineHTML($node);
 	}
 
 
