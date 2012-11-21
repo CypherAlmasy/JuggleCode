@@ -119,6 +119,7 @@ Title: Ideas for improving JuggleCode
 - Oppressing or replacing the body of function or method definitions (replaceMethodBody, replaceFunctionBody)
 - Improve the code by seperating the JuggleCode class into multiple classes, e.g one for methods, one for functions, asf.
 - Convert JuggleCode to a PHP extension (see PHP Preprocessors like <http://www.ohloh.net/p/pihipi> and <http://code.metala.org/p/ccpp>)
+- Find empty functions and methods; automatically oppress definitions of those and also the calls
 
 
 Title: Credits and Bugreports

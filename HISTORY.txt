@@ -1,6 +1,6 @@
 Title: History
 
-- Version 0.0.3 (unreleased, dev-master)
+- Version 0.0.3, released on 2012-11-21
 	- Removed cli support (yet untested)
 	- Removed inclusion of composer autoloader from src/JuggleCode.php
 - Version 0.0.2, released on 2012-10-12
