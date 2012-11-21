@@ -77,6 +77,12 @@ The output would be:
 : 	require('debug.php');
 : 	# ...
 
+Dynamic inclusion of files is left intact, even if mergeScripts is enabled:
+
+: 	# This will not change:
+: 	$file = 'somedata';
+: 	require($file . '.txt');
+
 To disable comments in the output, use:
 
 : 	$j->comments = false;
@@ -120,6 +126,7 @@ Title: Ideas for improving JuggleCode
 - Improve the code by seperating the JuggleCode class into multiple classes, e.g one for methods, one for functions, asf.
 - Convert JuggleCode to a PHP extension (see PHP Preprocessors like <http://www.ohloh.net/p/pihipi> and <http://code.metala.org/p/ccpp>)
 - Find empty functions and methods; automatically oppress definitions of those and also the calls
+- Generate templateable scripts from a non-templateable PHP scriptfile
 
 
 Title: Credits and Bugreports

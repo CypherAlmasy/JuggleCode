@@ -8,6 +8,14 @@ error_reporting(E_STRICT);
 
 # Include some classes:
 require('test2.php');
+require('animals/dog.php');
+
+# Dynamic include/require statements like the
+# following should be kept untouched, even if
+# mergeScripts is on:
+$animal = 'fox';
+require('animals/' . $animal . '.php');
+
 $fox = new Fox;
 $dog = new Dog;
 

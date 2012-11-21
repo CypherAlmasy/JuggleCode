@@ -11,15 +11,3 @@ class Animal {
 	public static function jump() { return 'jumps'; }
 	public static function hop() { return 'hops'; }
 };
-
-class Fox extends Animal {
-	public function __construct() {
-		parent::__construct('fox', 'quick brown');
-	}
-};
-
-class Dog extends Animal {
-	public function __construct() {
-		parent::__construct('dog', 'lazy');
-	}
-};

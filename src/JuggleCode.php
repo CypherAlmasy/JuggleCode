@@ -137,6 +137,14 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 */
 	private $includedFiles;
 
+	
+	/**
+	 * Variable: $includedFiles
+	 *
+	 * Variable for counting the number of inline HTML blocks.
+	 */
+	private $inlineHTMLBlocksCount;
+
 
 	/**
 	 * Function: __construct
@@ -156,6 +164,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 		$this->mergeScripts = false;
 		$this->filesToMerge = false;
 		$this->includedFiles = array();
+		$this->inlineHTMLBlocksCount = 0;
 	}
 
 
@@ -502,6 +511,11 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 		return $code;
 	}
 
+	public function pStmt_InlineHTML(PHPParser_Node_Stmt_InlineHTML $node) {
+		++$this->inlineHTMLBlocksCount;
+		parent::pStmt_InlineHTML($node);
+	}
+
 
 	/**
 	 * Function: printMethodCall
@@ -552,7 +566,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 			$workingdir = getcwd();
 
 			# Switch to projectfolder
-			chdir($mainfolder);
+			$this->switchDirectory($mainfolder);
 
 			# Process masterfile:
 			$program = $this->parseFile(basename($this->masterfile));
@@ -561,7 +575,7 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 			$program = '<?php' . PHP_EOL . $program;
 
 			# Switch back to workingdir:
-			chdir($workingdir);
+			$this->switchDirectory($workingdir);
 
 			# If program should get written to file
 			if ($this->outfile) {
@@ -585,8 +599,29 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 * 	The pretty-printed PHP code
 	 */
 	private function parseFile($file) {
-		LogMore::debug('parsing file %s', $file);
-		$statements = file_get_contents($file);
+		LogMore::debug('Should parse file %s', $file);
+		$fileDirectory = dirname($file);
+		LogMore::info('File directory: %s', $fileDirectory);
+
+		# Switch to file directory
+		$masterDirectory = null;
+		if ($fileDirectory && $fileDirectory != '.') {
+			LogMore::debug('Switching to directory: %s', $fileDirectory);
+			$masterDirectory = $this->switchDirectory($fileDirectory);
+
+			# Strip dirname from file:
+			$file = basename($file);
+		}
+
+		if (is_file($file)) {
+			$statements = file_get_contents($file);
+		} else {
+			$statements = array();
+			LogMore::debug(
+				'File could not be opened: %s (cwd: %s)',
+				$file,
+				getcwd());
+		}
 
 		# Create Parser
 		$parser = new PHPParser_Parser(new PHPParser_Lexer);
@@ -596,7 +631,39 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 		LogMore::debug('Syntax tree parsed');
 
 		# Pretty print syntax tree/convert syntax tree back to PHP statements:
-		return $this->prettyPrint($syntax_tree);
+		$code = $this->prettyPrint($syntax_tree);
+
+		# Switch back to master directory:
+		if ($masterDirectory) {
+			$this->switchDirectory($masterDirectory);
+		}
+
+		return $code;
+	}
+
+
+	private function switchDirectory($newDirectory) {
+		LogMore::debug('attempt to switch directory: %s', $newDirectory);
+
+		$masterDirectory = null;
+		if ($newDirectory && $newDirectory != '.') {
+			LogMore::debug('switching to directory %s', $newDirectory);
+			$masterDirectory = getcwd();
+			$rc = chdir($newDirectory);
+
+			if ($rc) {
+				LogMore::debug(
+					'directory switching attempt successfull; masterdir: %s',
+					$masterDirectory);
+			}
+		}
+
+		return $masterDirectory;
+	}
+
+
+	public function __get($name) {
+		return $this->$name;
 	}
 
 };
