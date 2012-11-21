@@ -139,4 +139,26 @@ class JuggleCodeTest extends PHPUnit_Framework_TestCase {
 			array('test2.php' => 1));
 	}
 
+
+	/*
+	 * When $mergeScripts is enabled, PHP files are automatically
+	 * merged into the outfile. JuggleCode does recognize PHP
+	 * files through the extension 'php'. All other files
+	 * should not get merged!
+	 */
+	public function testScriptMerging() {
+		# Create new object
+		$j = new JuggleCode('tests/test1.php', 'tests/outfile.php');
+		$j->mergeScripts = true;
+		$j->run();
+
+		# Check the include-table for correctness:
+		$this->assertEquals(
+			$j->getIncludedFiles(),
+			array( 	'test2.php' => 1,
+				'ueberdog.php' => 1,
+				'animals/dog.php' => 1,
+				'build_sentence.php' => 1));
+	}
+
 };

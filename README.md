@@ -53,6 +53,8 @@ The result of the merging-process will look like this:
  	# file2.php:
  	echo 'File 2',PHP_EOL;
 
+Be aware that -- when $mergeScripts is enabled -- only scripts that are identified as PHP-scripts (by their extension) are merged into the outfile! Files with the extension .inc are not merged.
+
 It is also possible to merge only specific files. Imagine the following script.php:
 
  	<?php

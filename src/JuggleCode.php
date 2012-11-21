@@ -402,19 +402,23 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 	 * Handles the inclusion of script-files.
 	 */
 	public function pExpr_Include(PHPParser_Node_Expr_Include $node) {
-		$file_to_include = $node->expr->value;
+		$file = $node->expr->value;
+		$info = pathinfo($file);
+		$extension = (isset($info['extension']))
+			? $extension = $info['extension']
+			: null;
 
-		if ($file_to_include && $this->mergeScripts ||
-			$file_to_include && in_array($file_to_include, $this->filesToMerge))
+		if ( 	$file && $this->mergeScripts && $extension == 'php' ||
+			$file && is_array($this->filesToMerge) && in_array($file, $this->filesToMerge))
 		{
-			LogMore::debug('File to include: %s', $file_to_include);
+			LogMore::debug('File to include: %s', $file);
 
 			# If the file should be only included/required once
 			if ( 	$node->type == PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE ||
 				$node->type == PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE)
 			{
 				# If the file has already been included
-				if (isset($this->includedFiles[$file_to_include])) {
+				if (isset($this->includedFiles[$file])) {
 					LogMore::debug('File has already been included once');
 
 					# Leave function
@@ -422,13 +426,13 @@ class JuggleCode extends PHPParser_PrettyPrinter_Zend {
 				}
 			}
 
-			$code = $this->parseFile($file_to_include);
+			$code = $this->parseFile($file);
 
 			# Add file to array of included files and raise counter:
-			if (isset($this->includedFiles[$file_to_include])) {
-				$this->includedFiles[$file_to_include] += 1;
+			if (isset($this->includedFiles[$file])) {
+				$this->includedFiles[$file] += 1;
 			} else {
-				$this->includedFiles[$file_to_include] = 1;
+				$this->includedFiles[$file] = 1;
 			}
 
 			return $code;
