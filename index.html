@@ -1,76 +1,197 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>Jugglecode by codeless</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jugglecode : Manipulate PHP statements in scriptfiles" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jugglecode</title>
   </head>
 
   <body>
-    <div id="container">
-      <div class="inner">
 
-        <header>
-          <h1>Jugglecode</h1>
-          <h2>Manipulate PHP statements in scriptfiles</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/codeless/JuggleCode">View on GitHub</a>
+
+          <h1 id="project_title">Jugglecode</h1>
+          <h2 id="project_tagline">Manipulate PHP statements in scriptfiles</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/codeless/JuggleCode/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/codeless/JuggleCode/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
+    </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/codeless/JuggleCode/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/codeless/JuggleCode/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/codeless/JuggleCode" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h1>
 
-        <hr>
+<p>JuggleCode is a tool to manipulate PHP statements in scriptfiles.</p>
 
-        <section id="main_content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<h1>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>JuggleCode can:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<ul>
+<li>Join multiple PHP files into a single outfile</li>
+<li>Remove comments from PHP files</li>
+<li>Oppress or replace function and method calls in PHP scripts</li>
+</ul><h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>JuggleCode always expects a PHP script as input. The output is redirected to stdout per default, but can get captured to a file.</p>
+
+<p>Example: the two files file1.php and file2.php form a PHP application and should get distributed in one file only (with the name app.php).</p>
+
+<p>file1.php:</p>
+
+<pre><code>&lt;?php
+# file1.php:
+echo 'File 1',PHP_EOL;
+require('file2.php');
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>file2.php:</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<pre><code>&lt;?php
+# file2.php:
+echo 'File 2',PHP_EOL;
+</code></pre>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>To combine these two files into app.php, a short PHP scripts needs to be written:</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<pre><code>require('vendor/codeless/jugglecode/src/JuggleCode.php');
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+$j = new JuggleCode();
+$j-&gt;masterfile = 'file1.php';
+$j-&gt;outfile = 'app.php';
+$j-&gt;mergeScripts = true;
+$j-&gt;run();
+</code></pre>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>The first three lines of the above script can get combined to:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code>$j = new JuggleCode('file1.php', 'app.php');
+</code></pre>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>The result of the merging-process will look like this:</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
+<pre><code>&lt;?php
+# file1.php:
+echo 'File 1',PHP_EOL;
+# file2.php:
+echo 'File 2',PHP_EOL;
+</code></pre>
 
-        <footer>
-          Jugglecode is maintained by <a href="https://github.com/codeless">codeless</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+<p>Be aware that -- when $mergeScripts is enabled -- only scripts that are identified as PHP-scripts (by their extension) are merged into the outfile! Files with the extension .inc are not merged.</p>
 
-        
-      </div>
+<p>It is also possible to merge only specific files. Imagine the following script.php:</p>
+
+<pre><code>&lt;?php
+require('lib.php');
+require('debug.php');
+# ...
+</code></pre>
+
+<p>To only join script.php with lib.php, run:</p>
+
+<pre><code>&lt;?php
+$j = new JuggleCode();
+$j-&gt;masterfile = 'script.php';
+$j-&gt;outfile = 'app.php';
+$j-&gt;mergeFile('lib.php');
+$j-&gt;run();
+</code></pre>
+
+<p>The output would be:</p>
+
+<pre><code>&lt;?php
+# Contents of lib.php
+# ...
+require('debug.php');
+# ...
+</code></pre>
+
+<p>Dynamic inclusion of files is left intact, even if mergeScripts is enabled:</p>
+
+<pre><code># This will not change:
+$file = 'somedata';
+require($file . '.txt');
+</code></pre>
+
+<p>To disable comments in the output, use:</p>
+
+<pre><code>$j-&gt;comments = false;
+</code></pre>
+
+<p>Oppress function- and method-calls:</p>
+
+<pre><code>$j-&gt;oppressFunctionCall('str_replace'); # Oppress all calls to str_replace
+$j-&gt;oppressMethodCall('$foo', 'foo'); # Oppress all calls to $foo-&gt;foo()
+$j-&gt;oppressMethodCall('Foo', 'foo'); # Oppress all calls to Foo::foo()
+</code></pre>
+
+<p>Replace function- and method-calls:</p>
+
+<pre><code># Replace all calls to str_replace with str_ireplace:
+$j-&gt;replaceFunctionCall('str_replace', 'str_ireplace(%args%)');
+
+# Replace all calls to $foo-&gt;foo() with foo():
+$j-&gt;replaceMethodCall('$foo', 'foo', 'foo(%args%)');
+</code></pre>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>JuggleCode is easily installed using Packagist/Composer.</p>
+
+<h1>
+<a name="ideas-for-using-jugglecode" class="anchor" href="#ideas-for-using-jugglecode"><span class="octicon octicon-link"></span></a>Ideas for using JuggleCode</h1>
+
+<ul>
+<li>Deploying PHP applications in a single file and in different versions: one version with included debugging features, the other version without</li>
+</ul><h1>
+<a name="ideas-for-improving-jugglecode" class="anchor" href="#ideas-for-improving-jugglecode"><span class="octicon octicon-link"></span></a>Ideas for improving JuggleCode</h1>
+
+<ul>
+<li>Allow the creation of single-file PHP patch-scripts that can overwrite PHP statements in one or multiple other PHP files</li>
+<li>Oppressing or replacing the body of function or method definitions (replaceMethodBody, replaceFunctionBody)</li>
+<li>Improve the code by seperating the JuggleCode class into multiple classes, e.g one for methods, one for functions, asf.</li>
+<li>Convert JuggleCode to a PHP extension (see PHP Preprocessors like <a href="http://www.ohloh.net/p/pihipi">http://www.ohloh.net/p/pihipi</a> and <a href="http://code.metala.org/p/ccpp">http://code.metala.org/p/ccpp</a>)</li>
+<li>Find empty functions and methods; automatically oppress definitions of those and also the calls</li>
+<li>Generate templateable scripts from a non-templateable PHP scriptfile</li>
+</ul><h1>
+<a name="credits-and-bugreports" class="anchor" href="#credits-and-bugreports"><span class="octicon octicon-link"></span></a>Credits and Bugreports</h1>
+
+<p>JuggleCode was written by Codeless (<a href="http://www.codeless.at/">http://www.codeless.at/</a>). All bugreports can be directed to <a href="mailto:more@codeless.at">more@codeless.at</a>. Even better, bugreports are posted on the github-repository of this package: <a href="https://www.github.com/codeless/jugglecode">https://www.github.com/codeless/jugglecode</a>.
+JuggleCode would not have been possible if there isn't nikic's PHP-Parser package: <a href="https://www.github.com/nikic/php-parser">https://www.github.com/nikic/php-parser</a>.</p>
+
+<h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License:
+<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">http://creativecommons.org/licenses/by-sa/3.0/deed.en_US</a></p>
+      </section>
     </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jugglecode maintained by <a href="https://github.com/codeless">codeless</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
