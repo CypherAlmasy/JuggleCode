@@ -124,6 +124,11 @@ JuggleCode is easily installed using Packagist/Composer.
 - Generate templateable scripts from a non-templateable PHP scriptfile
 
 
+# Alternatives to JuggleCode
+
+* [ClassPreloader](https://github.com/ClassPreloader/ClassPreloader)
+
+
 # Credits and Bugreports
 
 JuggleCode was written by Codeless (http://www.codeless.at/). All bugreports can be directed to more@codeless.at. Even better, bugreports are posted on the github-repository of this package: https://www.github.com/codeless/jugglecode.
