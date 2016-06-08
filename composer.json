@@ -5,7 +5,7 @@
 	"keywords" : ["deploy","join","one-file","prettyprint","manipulate"],
 	"homepage" : "https://www.github.com/codeless/jugglecode",
 	"require" : {
-		"nikic/php-parser" : ">=0.9.2",
+		"nikic/php-parser" : "0.9.5",
 		"codeless/logmore" : ">=0.8.3"
 	},
 	"replace" : {
